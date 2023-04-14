@@ -1,0 +1,46 @@
+* Kindle highlight Organizer
+Version: 1.0 (2023-IV-13)
+
+A simple script to /organize/ your kindle highlights!
+
+If you have exported your kindle highlight file via Calibre,
+you can convert and format it into an Org file and have
+a way better view of it with Org-mode dynamic headings. 
+
+Input:  
+[[./images/raw_clippings.gif]]
+
+Final result: 
+[[./images/final_result_org.gif]]
+
+** Basic usage
+In order to convert and format a kindle highlight text file
+into an org file, you only need to download the =khorganizer.py=
+file.
+
+1. Open your terminal in the folder where =khorganizer.py=
+   and =MyClippings.txt= are located.
+2. To convert and format =MyClippings.txt= into an org file:  
+   #+begin_src
+   $ python3 khorganizer.py organize MyClippings.txt MyClippings.org
+   #+end_src 
+3. Having converted and formated it, =list_books= prints all
+   the books present in your kindle hightlights file:
+   #+begin_src
+   $ python3 khorganizer.py list_books MyClippings.org
+   #+end_src    
+
+** Example with =example.txt=
+1. Clone this repository; 
+2. Open the terminal in this directory;
+3. Type =python3 khorganizer.py organize example.txt example.org= 
+4. Open =example.org= with Emacs (or [[https://github.com/nvim-neorg/neorg][Vim]])
+
+** Further details
+
+#+begin_src
+  python3 khorganizer.py help
+#+end_src
+
+** License
+GNU General Public License v3.0
