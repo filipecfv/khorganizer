@@ -48,4 +48,4 @@ Languages:
     It currently supports English and Portuguese. 
     To add a language, you can open the khorganizer.py file with your favorite text 
         editor, and add your language under the heading '# SUPPORTED LANGUAGES' and 
-        modify the line number 43.
+        modify the line number 36.
