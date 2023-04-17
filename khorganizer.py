@@ -107,7 +107,6 @@ def main():
         print("Sorry: you haven't provided a function")
     else: 
         if sys.argv[1] == "organize":
-            print('Organizing...')
             if len(sys.argv) < 4:
                 print("Sorry: you haven't provided enough arguments for the 'organize' function")
             else: 
