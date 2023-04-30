@@ -1,5 +1,4 @@
-* Kindle highlight Organizer
-Version: 1.0 (2023-IV-13)
+* khorganizer: Kindle highlight Organizer
 
 A simple script to /organize/ your kindle highlights!
 
@@ -12,6 +11,16 @@ Input:
 
 Final result: 
 [[./images/final_result_org.gif]]
+
+** "Installation"
+1. From the directory to which you want to download, clone this repository by running the following on the terminal: 
+   #+begin_src
+   git clone https://github.com/filipecfv/khorganizer
+   #+end_src
+2. From the =khorganizer= directory, include =khorganizer= in your PATH with: 
+   #+begin_src
+   echo export PATH=$PATH:$(pwd) >> ~/.bashrc 
+   #+end_src
 
 ** Basic usage
 In order to convert and format a kindle highlight text file
