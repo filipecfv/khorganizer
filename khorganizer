@@ -129,7 +129,7 @@ if (__name__ == "__main__"):
 
     subparsers = parser.add_subparsers(
             dest='command',
-            metavar=''
+            metavar='<subcommand>'
             )
 
     parser_organize = subparsers.add_parser(
@@ -138,14 +138,14 @@ if (__name__ == "__main__"):
     parser_organize.add_argument(
             '-i',
             '--input',
-            metavar='',
+            metavar='\b',
             help='kindle highlights file to be converted'
     )
 
     parser_organize.add_argument(
             '-o',
             '--output',
-            metavar='',
+            metavar='\b',
             help='org file'
     )
 
@@ -157,7 +157,7 @@ if (__name__ == "__main__"):
     parser_list.add_argument(
             '-f',
             '--file',
-            metavar='',
+            metavar='\b',
             help='org file'
     )
 
