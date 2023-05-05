@@ -2,131 +2,173 @@
 """
 Last modified: 2023-IV-30
 Description: a simple script that organizes kindle highlights
-Author: github.com/filipecfv 
+Author: github.com/filipecfv
 License: GPL-3.0
 """
+
+import argparse
+import re
+
 
 # SUPPORTED LANGUAGES
 en = '- Your Highlight'
 pt = '- Seu destaque'
 
-import argparse
-import sys
-import re
 
 def organize(txt_input, org_output):
     open_text_file(txt_input, org_output)
+
 
 def open_text_file(txt_input, org_output):
     t = open(txt_input, "r").read()
     clean_file_from_ufeff(t, org_output)
 
+
 def clean_file_from_ufeff(t, org_output):
     t = t.replace('\ufeff', '')
     split_into_a_list_by_line_break(t, org_output)
 
-def split_into_a_list_by_line_break(t, org_output): 
+
+def split_into_a_list_by_line_break(t, org_output):
     t = re.split('(\n)', t)
     add_top_division(t, org_output)
 
+
 def add_top_division(t, org_output):
-    t = ['==========', '\n'] + t   
+    t = ['==========', '\n'] + t
     remove_your_highlight_message(t, org_output)
 
-def remove_your_highlight_message(t, org_output): 
+
+def remove_your_highlight_message(t, org_output):
     [t.remove(i) for i in t if i.startswith(pt) or i.startswith(en)]
     join_elements_and_replace_headings_identifiers(t, org_output)
 
+
 def join_elements_and_replace_headings_identifiers(t, org_output):
     t = ''.join(t).replace('=\n', '\n=')
-    split_by_division_line(t, org_output) 
+    split_by_division_line(t, org_output)
 
-def split_by_division_line(t, org_output): 
+
+def split_by_division_line(t, org_output):
     t = t.split('=========')
     sort_headings(t, org_output)
 
-def sort_headings(t, org_output): 
+
+def sort_headings(t, org_output):
     t = sorted(t)
     join_sorted_elements(t, org_output)
 
-def join_sorted_elements(t, org_output): 
+
+def join_sorted_elements(t, org_output):
     t = ''.join(t)
     add_heading_asterisk(t, org_output)
 
-def add_heading_asterisk(t, org_output): 
+
+def add_heading_asterisk(t, org_output):
     t = t.replace('\n=', '\n* ')
     split_sorted_elements_by_line_break(t, org_output)
+
 
 def split_sorted_elements_by_line_break(t, org_output):
     t = re.split('(\n)', t)
     unique_headings(t, org_output)
 
-def unique_headings(t, org_output): 
+
+def unique_headings(t, org_output):
     u = []
     [u.append(x) for x in t if x not in u]
     t = u
     clean_file_from_remainings(t, org_output)
 
-def clean_file_from_remainings(t, org_output): 
+
+def clean_file_from_remainings(t, org_output):
     t = [i for i in t if i not in {'', '\n', '* '}]
     add_line_breaks(t, org_output)
 
-def add_line_breaks(t, org_output): 
+
+def add_line_breaks(t, org_output):
     t = [i + '\n' for i in t]
     to_org(t, org_output)
 
+
 def to_org(txt_input, org_output):
     org = []
-    for i in txt_input: 
+    for i in txt_input:
         if i.startswith('*'):
             org.append(i)
         else:
             org.append('- ' + i)
-    org = ''.join(org)        
-    final_message(org, org_output)   
+    org = ''.join(org)
+    final_message(org, org_output)
+
 
 def final_message(text, org_output):
-    print(len(text), 'lines successfully converted into {}!'.format(org_output))
+    print(
+            len(text),
+            'lines successfully converted into {}!'.format(org_output))
     write(org_output, text)
+
 
 def write(org_output, arq):
     with open(org_output, 'w') as f:
         f.write(arq)
 
+
 def list_books(org_input):
-    l = open(org_input, "r").read() 
-    l = l.split('\n')
-    [print(i) for i in l if i.startswith('*')]
+    ls = open(org_input, "r").read()
+    ls = ls.split('\n')
+    [print(i) for i in ls if i.startswith('*')]
+
 
 if (__name__ == "__main__"):
     parser = argparse.ArgumentParser(
-            prog = 'khorganize',
-            description = 'Kindle Hightlights Organizer: \
-                            a simple script that organizes kindle highlights')
-    
-    subparsers = parser.add_subparsers(dest = 'command', 
-                                        metavar = '') 
+            prog='khorganize',
+            description='Kindle Hightlights Organizer: \
+                            a simple script that organizes kindle highlights'
+            )
 
-    parser_organize = subparsers.add_parser('organize', 
-            help = 'organizes kindle highlights file')
-    parser_organize.add_argument('-i', '--input', metavar = '', 
-            help = 'kindle highlights file to be converted')
-    parser_organize.add_argument('-o', '--output', metavar = '',
-            help = 'org file')
+    subparsers = parser.add_subparsers(
+            dest='command',
+            metavar=''
+            )
 
-    parser_list = subparsers.add_parser('list',
-            help = 'list books of an org file')
-    parser_list.add_argument('-f', '--file', metavar = '', 
-            help = 'org file')
+    parser_organize = subparsers.add_parser(
+            'organize',
+            help='organizes kindle highlights file')
+    parser_organize.add_argument(
+            '-i',
+            '--input',
+            metavar='',
+            help='kindle highlights file to be converted'
+    )
+
+    parser_organize.add_argument(
+            '-o',
+            '--output',
+            metavar='',
+            help='org file'
+    )
+
+    parser_list = subparsers.add_parser(
+            'list',
+            help='list books of an org file'
+            )
+
+    parser_list.add_argument(
+            '-f',
+            '--file',
+            metavar='',
+            help='org file'
+    )
 
     parser_organize.set_defaults(func=organize)
     parser_list.set_defaults(func=list_books)
 
-    try: 
+    try:
         args = parser.parse_args()
-        if args.subcommand == 'organize': 
+        if args.subcommand == 'organize':
             organize(args.input, args.output)
         elif args.subcommand == 'list':
             list_books(args.input)
-    except AttributeError: 
+    except AttributeError:
         parser.print_help()
